@@ -1,0 +1,26 @@
+{
+  "name": "airportselenium",
+  "version": "1.0.0",
+  "description": "Page object model solution for airport shopping app using selenium and typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Clarencio Tan",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chromedriver": "^2.42.0",
+    "cucumber": "^5.0.1",
+    "grunt": "^1.0.3",
+    "grunt-cucumberjs": "^2.0.2",
+    "grunt-ts": "^6.0.0-beta.21",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.5",
+    "@types/cucumber": "^4.0.4",
+    "@types/selenium-webdriver": "^3.0.10",
+    "typescript": "^2.7.2"
+  }
+}
