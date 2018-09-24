@@ -1,6 +1,7 @@
 import {BasePage} from '../common/BasePage';
 import {WebDriver, until, By, WebElement} from 'selenium-webdriver';
 import { LocTypes } from '../utils/LocTypes';
+import { Navigator } from '../common/Navigator';
 
 export class SpiritsAndWinesPage extends BasePage{
     
@@ -8,6 +9,10 @@ export class SpiritsAndWinesPage extends BasePage{
     private liqTimeout : number = 12000;
     private SpiritAndWinesOptions : string = "//div[@class='productGrid  searchProductGrid']/a";
     private NextPage : string = "(//a[contains(.,'Next Page')])[1]";
+    private AddToCart : string = "(//button[contains(.,'Add to Cart')])[1]";
+    private PickupDeparture : string = "(//a[contains(.,'at Departure')])[1]";
+    private PickupArrival : string = "(//a[contains(.,'on Arrival')])[1]";
+    private AddCartMessageLoc : string = "(//div[@class='productAddToCartStep productAddToCartStep3'])[1]";
 
     private SpecificLiquor(name: string) : string{
         return `//div[@class='productGrid  searchProductGrid']/a[contains(.,'${name}')]`;
@@ -58,5 +63,22 @@ export class SpiritsAndWinesPage extends BasePage{
 
         // when it is finally found:
         await this.click(this.SpecificLiquor(item), LocTypes.xpath, SpiritsAndWinesPage.name);
+    }
+
+    public async AddItemToCartAndSpecPickup(option: string){
+        await this.click(this.AddToCart, LocTypes.xpath, SpiritsAndWinesPage.name);
+        await this.click(this.PickupDeparture, LocTypes.xpath, SpiritsAndWinesPage.name);
+    }
+
+    public async GetAddCartConfirmationMessage() : Promise<string>{
+        var msgGot : string;
+        msgGot = await this.getElementByXpath(this.AddCartMessageLoc).getText().then( (theText) => {
+            return theText;
+        })
+        return msgGot;
+    }
+
+    public async NavigateToCart(){
+        await Navigator.GoToCart(this.driver, SpiritsAndWinesPage.name);
     }
 }
