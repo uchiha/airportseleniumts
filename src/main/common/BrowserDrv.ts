@@ -5,7 +5,7 @@ export class BrowserDrv{
 
     public static setDriver(){
         BrowserDrv.driver = new webdriver.Builder()
-                            .usingServer('http://localhost:4444/wd/hub')
+                            // .usingServer('http://localhost:4444/wd/hub')
                             .withCapabilities(webdriver.Capabilities.chrome())
                             .build();
     }
