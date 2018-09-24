@@ -5,4 +5,4 @@ Feature: Sample purchases from the airport shopping app
 
     Scenario: a user purchases a particular wine/spirit
         Given the user clicks the wine and spirit link
-        And looks for the item "Glenfiddich Select Cask 1L"
+        And looks for the item "ROYAL SALUTE SAPPHIRE 700ml"

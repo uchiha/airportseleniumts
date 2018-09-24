@@ -28,8 +28,8 @@ Then(/^the user clicks the wine and spirit link$/, async () => {
     await shopHomePage.openWinesAndSpirits();
 });
   
-Then(/^looks for the item "([^"]*)"$/, async (purchaseItem) => {
+Then(/^looks for the item "([^"]*)"$/, {timeout: 4 * 5000}, async (purchaseItem) => {
     winesAndSpirits = await new SpiritsAndWinesPage(BrowserDrv.getDriver());
     
-    await winesAndSpirits.printAllLiquorsLabels();
+    await winesAndSpirits.selectIndicatedItem(purchaseItem);
 });
