@@ -15,4 +15,8 @@ export class ShoppingHomePage extends BasePage{
     public async openWinesAndSpirits(){
        await Navigator.GoToWinesAndSpirits(this.driver, ShoppingHomePage.name);
     }
+
+    public async openJewellery(){
+        await Navigator.GoToJewellery(this.driver, ShoppingHomePage.name);
+     }
 }

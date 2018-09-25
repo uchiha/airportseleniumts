@@ -7,23 +7,23 @@ export class BasicHelper{
 
     private static timeOut : number = 10000; // 10ms timeout
 
-    private static getElementByXpath(driver: WebDriver, locator: string) : WebElement{
+    public static getElementByXpath(driver: WebDriver, locator: string) : WebElement{
         var elem = driver.wait(until.elementLocated(By.xpath(locator)), BasicHelper.timeOut);
         return elem;
     }
 
-    private static getElementById(driver: WebDriver, locator: string) : WebElement{
+    public static getElementById(driver: WebDriver, locator: string) : WebElement{
         var elem = driver.wait(until.elementLocated(By.id(locator)), BasicHelper.timeOut);
         return elem;
     }
 
-    private static getElementByCss(driver: WebDriver, locator: string) : WebElement{
+    public static getElementByCss(driver: WebDriver, locator: string) : WebElement{
         var elem = driver.wait(until.elementLocated(By.css(locator)), BasicHelper.timeOut);
         return elem;
     }
 
     // this method will return either true/false depending if element is stale.
-    private static waitUntilXpathElementIsStale(driver : WebDriver, locator : string) : any{
+    public static waitUntilXpathElementIsStale(driver : WebDriver, locator : string) : any{
         var state = driver.wait(until.stalenessOf(driver.findElement(By.xpath(locator))), BasicHelper.timeOut).then((stat) =>{
             return stat;
         });

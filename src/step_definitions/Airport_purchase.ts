@@ -4,10 +4,14 @@ import {ShoppingHomePage} from '../main/page_objects/ShoppingHomePage';
 import { SpiritsAndWinesPage } from '../main/page_objects/SpiritsAndWinesPage';
 import {expect} from 'chai';
 import { CartPage } from '../main/page_objects/CartPage';
+import { JewelleryPage } from '../main/page_objects/JewelleryPage';
+import { CommonUserActions } from '../main/common/CommonUserActions';
 
 let shopHomePage : any = null;
 let winesAndSpirits : any = null;
 let cartPage : any = null;
+let jewelleryPage : any = null;
+let selectedJewelleryPrice : string; 
 
 Before( async () => {
     console.warn(">> Trigger before");
@@ -27,7 +31,10 @@ When(/^a user browses "([^"]*)"$/, {timeout: 3 * 5000}, async (url) => {
   
 Then(/^the user clicks the wine and spirit link$/, async () => {
     console.warn(">> Click wines and spirits..");
-    shopHomePage = await new ShoppingHomePage(BrowserDrv.getDriver());
+    if(shopHomePage == null){
+        shopHomePage = await new ShoppingHomePage(BrowserDrv.getDriver());
+    }
+
     await shopHomePage.openWinesAndSpirits();
 });
   
@@ -44,19 +51,23 @@ Then(/^the user adds it to cart then selects "([^"]*)" as pickup from AKL intern
 });
 
 Then(/^the message "([^"]*)" is displayed$/, {timeout: 4 * 5000}, async (confirmMsg) =>  {
-    if(winesAndSpirits == null){
-        winesAndSpirits = await new SpiritsAndWinesPage(BrowserDrv.getDriver());
-    }
-    expect(await winesAndSpirits.GetAddCartConfirmationMessage()).to.include(confirmMsg);
+    // if(winesAndSpirits == null){
+    //     winesAndSpirits = await new SpiritsAndWinesPage(BrowserDrv.getDriver());
+    // }
+    // expect(await winesAndSpirits.GetAddCartConfirmationMessage()).to.include(confirmMsg);
     // console.warn(`The message taken: "${await winesAndSpirits.GetAddCartConfirmationMessage()}"`);
+
+    expect(await CommonUserActions.GetConfirmationMessageAfterAddingItemToCart(BrowserDrv.getDriver())).to.include(confirmMsg);
+
 });
 
 Then(/^the user clicks his cart$/, async () => {
-    if(winesAndSpirits == null){
-        winesAndSpirits = await new SpiritsAndWinesPage(BrowserDrv.getDriver());
-    }
+    // if(winesAndSpirits == null){
+    //     winesAndSpirits = await new SpiritsAndWinesPage(BrowserDrv.getDriver());
+    // }
 
-    winesAndSpirits.NavigateToCart();
+    // winesAndSpirits.NavigateToCart();
+    await CommonUserActions.NavigateToCart(BrowserDrv.getDriver());
     
 });
 
@@ -66,4 +77,33 @@ Then(/^the item "([^"]*)" should be listed in the cart$/, {timeout: 4 * 5000}, a
     }
     expect(await cartPage.GetFirstItemInCart()).to.include(itemPur);
     
+});
+
+Then(/^the user clicks the Jewellery link$/, async () => {
+    if(shopHomePage == null){
+        shopHomePage = await new ShoppingHomePage(BrowserDrv.getDriver());
+    }
+
+    await shopHomePage.openJewellery();
+  });
+
+Then(/^looks for the jewellery "([^"]*)" then selects it$/, {timeout: 4 * 5000}, async (purchaseItem) => {
+    if(jewelleryPage == null){
+        jewelleryPage = await new JewelleryPage(BrowserDrv.getDriver());
+    }
+    await jewelleryPage.selectIndicatedItem(purchaseItem);
+});
+
+Then(/^the user adds the jewellery to cart then selects "([^"]*)" as pickup from AKL international airport$/, async (pickupOptions) => {
+    if(jewelleryPage == null){
+        jewelleryPage = await new JewelleryPage(BrowserDrv.getDriver());
+    }
+    // console.warn(`------------>>> "${await jewelleryPage.getPriceJewel()}"`);
+    selectedJewelleryPrice = await jewelleryPage.getPriceJewel();
+    await jewelleryPage.AddItemToCartAndSpecPickup(pickupOptions);
+});
+
+Then(/^the cart summary should display the correct amount for this purchase$/, async () => {
+    
+    expect(selectedJewelleryPrice).to.include(await CommonUserActions.GetCartTotalToPay(BrowserDrv.getDriver()));
 });
