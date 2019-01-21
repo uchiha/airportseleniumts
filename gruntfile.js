@@ -7,7 +7,8 @@ module.exports = function(grunt){
                 format : 'html',
                 output : 'target/my_reports.html',
                 theme : 'bootstrap',
-                require : 'target/step_definitions'
+                require : 'target/step_definitions',
+                tags: grunt.option('cucumbertags')
             },
             features : ['src/features']
         },
